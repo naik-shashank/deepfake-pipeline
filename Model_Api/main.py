@@ -36,7 +36,7 @@ def preprocess_image(file: bytes):
 
 @app.get("/")
 async def root():
-    return {"message": "Welcome to the Deepfake Detector API!   neww..."}
+    return {"message": "Welcome to the Deepfake Detector API!   neww...hgdhgdc"}
 
 
 
