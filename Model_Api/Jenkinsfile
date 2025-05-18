@@ -1,20 +1,30 @@
 pipeline {
     agent any
 
+    environment {
+        IMAGE_NAME = "deepfake-detector"
+    }
+
     stages {
         stage('Clone Repo') {
             steps {
                 git 'https://github.com/naik-shashank/deepfake-pipeline.git'
             }
         }
+
         stage('Build Docker Image') {
             steps {
-                sh 'eval $(minikube -p minikube docker-env) && docker build -t deepfake-detector .'
+                dir('Model_Api') {
+                    sh 'eval $(minikube docker-env) && docker build -t deepfake-detector .'
+                }
             }
         }
+
         stage('Deploy to Kubernetes') {
             steps {
-                sh 'kubectl apply -f k8s-deployment.yaml'
+                dir('Model_Api') {
+                    sh 'kubectl apply -f k8s-deployment.yaml'
+                }
             }
         }
     }
